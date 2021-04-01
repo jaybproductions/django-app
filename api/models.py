@@ -20,4 +20,12 @@ class Room(models.Model):
     votes_to_skip = models.IntegerField(null=False, default=1)
     created_at = models.DateTimeField(auto_now_add=True)
 
+class Lead(models.Model):
+    first_name = models.CharField(max_length=20, default="", unique=False)
+    last_name = models.CharField(max_length=20, default="", unique=False)
+    email = models.CharField(max_length=20, default="", unique=False)
+    phone_number = models.CharField(max_length=15, default="", unique=False)
+    business_name = models.CharField(max_length=30, default="", unique=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
 

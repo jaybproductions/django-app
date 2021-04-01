@@ -6,12 +6,15 @@ import {
   BrowserRouter as Router,
   Redirect,
 } from "react-router-dom";
+import Header from "./Header";
 
 //pages imports
 import Home from "./Home";
 import JoinRoom from "./JoinRoom";
 import CreateRoom from "./CreateRoom";
 import Room from "./Room";
+import CreateLead from "./CreateLead";
+import Leads from "./Leads";
 const App = () => {
   const [roomCode, setRoomCode] = useState(null);
   useEffect(() => {
@@ -22,24 +25,26 @@ const App = () => {
       });
   }, []);
   return (
-    <div className="center">
-      <Router>
+    <>
+      <Header />
+      <div className="center">
         <Switch>
-          <Route
-            exact
-            path="/"
-            render={() => {
-              return roomCode ? <Redirect to={`/room/${roomCode}`} /> : Home;
-            }}
-          />
+          <Route exact path="/" component={Home} />
           <Route path="/join" component={JoinRoom} />
           <Route path="/create" component={CreateRoom} />
           <Route path="/room/:roomCode" component={Room} />
+          <Route path="/create-lead" component={CreateLead} />
+          <Route path="/leads" component={Leads} />
         </Switch>
-      </Router>
-    </div>
+      </div>
+    </>
   );
 };
 
 const appDiv = document.getElementById("app");
-render(<App />, appDiv);
+render(
+  <Router>
+    <App />
+  </Router>,
+  appDiv
+);

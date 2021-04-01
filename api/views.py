@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import generics, status
-from .serializers import RoomSerializer, CreateRoomSerializer
-from .models import Room
+from .serializers import RoomSerializer, CreateRoomSerializer, LeadSerializer, CreateLeadSerializer
+from .models import Room, Lead
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.http import JsonResponse
@@ -10,6 +10,10 @@ from django.http import JsonResponse
 class RoomView(generics.ListAPIView):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
+
+class LeadView(generics.ListAPIView):
+    queryset = Lead.objects.all()
+    serializer_class = LeadSerializer
 
 class GetRoom(APIView): 
     serializer_class = RoomSerializer
@@ -94,8 +98,33 @@ class CreateRoomView(APIView):
         
         return Response({'Bad Request': 'Invalid Data...'}, status=status.HTTP_400_BAD_REQUEST)
 
+class CreateLeadView(APIView):
+    
+    serializer_class = CreateLeadSerializer
+    def post(self, request, format=None):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            first_name = serializer.data.get('first_name')
+            last_name = serializer.data.get('last_name')
+            phone_number = serializer.data.get('phone_number')
+            email = serializer.data.get('email')
+            business_name = serializer.data.get('business_name')
+            lead = Lead(first_name=first_name, last_name=last_name, email=email, phone_number=phone_number, business_name=business_name)
+            lead.save()
+            
+            return Response(CreateLeadSerializer(lead).data, status=status.HTTP_200_OK)
 
 
+class DeleteLeadView(APIView):
+    serializer_class = CreateLeadSerializer
+    lookup_url_kwargs = 'id'
+    def delete(self, request, format=None):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            id = request.data.get(self.lookup_url_kwargs)
+            Lead.objects.filter(id=id).delete()
+            return Response({"Lead was deleted"}, status=status.HTTP_200_OK)
+        return Response({"Bad request": "Lead could not be deleted"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 

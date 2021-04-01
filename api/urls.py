@@ -1,11 +1,14 @@
 
 from django.urls import path
-from .views import RoomView, CreateRoomView, GetRoom, JoinRoom, UserInRoom
+from .views import RoomView, CreateRoomView, GetRoom, JoinRoom, UserInRoom, CreateLeadView, LeadView, DeleteLeadView
 
 urlpatterns = [
     path('room', RoomView.as_view()),
     path('create-room', CreateRoomView.as_view()),
     path('get-room', GetRoom.as_view()),
     path('join-room', JoinRoom.as_view()),
-    path('user-in-room', UserInRoom.as_view())
+    path('user-in-room', UserInRoom.as_view()),
+    path('create-lead', CreateLeadView.as_view()),
+    path('delete-lead', DeleteLeadView.as_view()),
+    path('leads', LeadView.as_view())
 ]
