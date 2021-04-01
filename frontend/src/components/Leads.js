@@ -22,6 +22,8 @@ import {
   FormControlLabel,
   Switch,
 } from "@material-ui/core";
+import AddCircleIcon from "@material-ui/icons/AddCircle";
+import { Link } from "react-router-dom";
 
 function createData(
   id,
@@ -336,6 +338,12 @@ export default function EnhancedTable() {
 
   return (
     <div className={classes.root}>
+      <IconButton to="/create-lead" component={Link} color="primary">
+        <AddCircleIcon />
+        <Typography variant="h6" component="h6">
+          New Lead
+        </Typography>
+      </IconButton>
       {selected.length > 0 && (
         <Button onClick={handleDelete}>Delete Selected</Button>
       )}
