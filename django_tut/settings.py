@@ -39,7 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'api.apps.ApiConfig',
     'rest_framework',
-    'frontend.apps.FrontendConfig'
+    'frontend.apps.FrontendConfig',
+    'djoser',
+    'rest_framework.authtoken',
+    'accounts.apps.AccountConfig'
+
 ]
 
 MIDDLEWARE = [
@@ -72,6 +76,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'django_tut.wsgi.application'
 
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+}
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases

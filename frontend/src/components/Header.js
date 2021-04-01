@@ -10,19 +10,9 @@ import {
   MenuItem,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link as RouterLink } from "react-router-dom";
-
-const headersData = [
-  {
-    label: "Home",
-    href: "/",
-  },
-  {
-    label: "Leads",
-    href: "/leads",
-  },
-];
+import UserContext from "../contexts/UserContext";
 
 const useStyles = makeStyles(() => ({
   header: {
@@ -56,11 +46,28 @@ const useStyles = makeStyles(() => ({
 
 export default function Header() {
   const { header, logo, menuButton, toolbar, drawerContainer } = useStyles();
-
+  const { token } = useContext(UserContext);
   const [state, setState] = useState({
     mobileView: false,
     drawerOpen: false,
   });
+
+  const headersData = [
+    {
+      label: "Home",
+      href: "/",
+    },
+    {
+      label: "Leads",
+      href: "/leads",
+    },
+    !token
+      ? {
+          label: "Login",
+          href: "/login",
+        }
+      : { label: "Logout", href: "/logout" },
+  ];
 
   const { mobileView, drawerOpen } = state;
 
